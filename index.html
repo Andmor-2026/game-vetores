@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -237,26 +238,39 @@ function h(letter) { return '<span class="hat">' + letter + '</span>'; }
 
 
 // ── GOOGLE SHEETS INTEGRATION ──
-var SHEET_URL = 'COLE_AQUI_A_URL_DO_APPS_SCRIPT';
+var SHEET_URL = 'https://script.google.com/macros/s/AKfycbxYRO3Q714A1XP5QHVrAfEGHFp31Pzhlo5yrW_Q8AU_0P8aoOSeNTk2jJTlAEV7Fa8Wtw/exec';
 var studentName = '';
 
 function startGame() {
   var input = document.getElementById('student-name').value.trim();
-  if (!input) { document.getElementById('student-name').focus(); return; }
+  if (!input) {
+    document.getElementById('student-name').style.borderColor = '#fc8181';
+    document.getElementById('student-name').placeholder = 'Digite seu nome para continuar';
+    document.getElementById('student-name').focus();
+    return;
+  }
   studentName = input;
   document.getElementById('name-overlay').classList.add('hidden');
-  sendToSheets({ evento: 'inicio', missao: '—', acertos: '—', total: '—', xp: 0, nivel: 1, precisao: '—' });
+  // Fire-and-forget — never blocks the game
+  try {
+    sendToSheets({ evento: 'inicio', missao: '—', acertos: '—', total: '—', xp: 0, nivel: 1, precisao: '—' });
+  } catch(err) {}
 }
 
 function sendToSheets(data) {
-  var SHEET_URL = 'COLE_AQUI_A_URL_DO_APPS_SCRIPT';
-  var payload = Object.assign({ aluno: studentName, timestamp: new Date().toLocaleString('pt-BR') }, data);
-  fetch(SHEET_URL, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
-  }).then(function() { showSyncStatus(true); }).catch(function() { showSyncStatus(false); });
+  if (!SHEET_URL || SHEET_URL === 'https://script.google.com/macros/s/AKfycbxYRO3Q714A1XP5QHVrAfEGHFp31Pzhlo5yrW_Q8AU_0P8aoOSeNTk2jJTlAEV7Fa8Wtw/exec') return;
+  try {
+    var payload = Object.assign({ aluno: studentName, timestamp: new Date().toLocaleString('pt-BR') }, data);
+    fetch(SHEET_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(function() { showSyncStatus(true); }).catch(function() { showSyncStatus(false); });
+  } catch(err) {
+    // Never block the game on network errors
+    showSyncStatus(false);
+  }
 }
 
 function showSyncStatus(ok) {
@@ -273,7 +287,7 @@ const missions = [
     id: 'm1', icon: '&#127959;&#65039;',
     title: 'Miss&#227;o 1 &#8212; Canteiro de Obras',
     short: 'For&#231;as em estruturas',
-    desc: 'Uma viga est&#225; sujeita a for&#231;as. Calcule m&#243;dulos e identifique vetores para garantir a seguran&#231;a da estrutura.',
+    desc: 'Uma viga está sujeita a forças. Calcule módulos e identifique vetores para garantir a segurança da estrutura.',
     xp: 80, badge: '&#127959;&#65039; Estruturista', requires: [],
     challenges: [
       {
@@ -306,7 +320,7 @@ const missions = [
     id: 'm2', icon: '&#9889;',
     title: 'Miss&#227;o 2 &#8212; Circuito El&#233;trico',
     short: 'Campos e pot&#234;ncia',
-    desc: 'Analise vetores de campo el&#233;trico. O produto escalar &#233; fundamental para calcular pot&#234;ncia e energia.',
+    desc: 'Analise vetores de campo elétrico. O produto escalar &#233; fundamental para calcular potência e energia.',
     xp: 100, badge: '&#9889; Eletricista', requires: ['m1'],
     challenges: [
       {
@@ -339,7 +353,7 @@ const missions = [
     id: 'm3', icon: '&#128640;',
     title: 'Miss&#227;o 3 &#8212; Lan&#231;amento de Foguete',
     short: 'Decomposi&#231;&#227;o e trajet&#243;ria',
-    desc: 'Decomponha vetores de velocidade e acelera&#231;&#227;o para calcular a trajet&#243;ria de um foguete.',
+    desc: 'Decomponha vetores de velocidade e aceleraçãoo para calcular a trajetória de um foguete.',
     xp: 120, badge: '&#128640; Aeroespacial', requires: ['m2'],
     challenges: [
       {
@@ -372,7 +386,7 @@ const missions = [
     id: 'm4', icon: '&#129302;',
     title: 'Miss&#227;o 4 &#8212; Rob&#243;tica Industrial',
     short: 'Produto vetorial e torque',
-    desc: 'Calcule torques de um bra&#231;o rob&#243;tico usando produto vetorial. Essencial para programar movimentos precisos.',
+    desc: 'Calcule torques de um braço robótico usando produto vetorial. Essencial para programar movimentos precisos.',
     xp: 150, badge: '&#129302; Roboticista', requires: ['m3'],
     challenges: [
       {
@@ -405,8 +419,8 @@ const missions = [
     id: 'm5', icon: '&#127754;',
     title: 'Miss&#227;o Final &#8212; Plataforma Offshore',
     short: 'Desafio integrado',
-    desc: 'Use todos os conceitos para analisar for&#231;as do vento, correntes e estruturas de uma plataforma de petr&#243;leo.',
-    xp: 200, badge: '&#127754; Engenheiro S&#234;nior', requires: ['m4'],
+    desc: 'Use todos os conceitos para analisar forças do vento, correntes e estruturas de uma plataforma de petróleo.',
+    xp: 200, badge: '&#127754; Engenheiro Sêior', requires: ['m4'],
     challenges: [
       {
         ctx: function(){ return 'Vento: ' + v('v') + '<sub>vento</sub> = (15, 0) m/s. Corrente: ' + v('v') + '<sub>corrente</sub> = (0, 8) m/s.'; },
