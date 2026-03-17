@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -9,6 +10,49 @@
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f7fa; color: #1a202c; min-height: 100vh; }
   #app { max-width: 780px; margin: 0 auto; padding: 20px 16px 60px; }
 
+  /* ── VECTOR NOTATION ──
+     .vec renders a right-pointing arrow above the letter using
+     a real SVG arrow embedded via ::before — works in all browsers
+     including Chrome, which misrenders U+20D7 combining arrows.
+  */
+  .vec {
+    display: inline-block;
+    position: relative;
+    padding-top: 10px;
+    line-height: 1.2;
+  }
+  .vec::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 9px;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: 80% 9px;
+    /* SVG arrow: short line + arrowhead, dark color */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 9'%3E%3Cline x1='1' y1='5' x2='15' y2='5' stroke='%231a202c' stroke-width='1.6' stroke-linecap='round'/%3E%3Cpolyline points='11,2 16,5 11,8' fill='none' stroke='%231a202c' stroke-width='1.6' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E");
+  }
+  /* hat notation for unit vectors: û, F̂, n̂ */
+  .hat {
+    display: inline-block;
+    position: relative;
+    padding-top: 10px;
+    line-height: 1.2;
+  }
+  .hat::before {
+    content: '^';
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.65em;
+    line-height: 1;
+    color: inherit;
+    font-style: normal;
+  }
+
   /* HUD */
   .hud { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 12px 16px; margin-bottom: 20px; background: #fff; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
   .hud-item { display: flex; align-items: center; gap: 5px; font-size: 13px; font-weight: 600; color: #2d3748; }
@@ -18,13 +62,11 @@
   .xp-bar-fill { height: 7px; border-radius: 99px; background: #F0A500; transition: width .5s ease; }
   .xp-label { font-size: 10px; color: #718096; margin-top: 2px; }
 
-  /* BADGES */
   .badge { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 99px; }
   .badge-gold  { background: #fef3c7; color: #92400e; }
   .badge-blue  { background: #ebf8ff; color: #2b6cb0; }
   .badge-green { background: #f0fff4; color: #276749; }
 
-  /* SCREENS */
   .screen { display: none; }
   .screen.active { display: block; }
 
@@ -42,31 +84,28 @@
   .m-desc  { font-size: 12px; color: #718096; line-height: 1.4; margin-bottom: 10px; }
   .m-meta  { display: flex; gap: 6px; flex-wrap: wrap; }
 
-  /* MISSION */
-  .back-btn { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #718096; background: none; border: none; cursor: pointer; padding: 0; margin-bottom: 14px; }
+  .back-btn { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #718096; background: none; border: none; cursor: pointer; padding: 0; margin-bottom: 14px; font-family: inherit; }
   .back-btn:hover { color: #2d3748; }
   .mission-header { margin-bottom: 16px; }
   .mission-header h2 { font-size: 20px; font-weight: 700; color: #1a202c; margin-bottom: 4px; }
   .mission-header p  { font-size: 13px; color: #718096; }
 
-  /* STEPS */
   .steps { display: flex; align-items: center; gap: 6px; margin-bottom: 18px; flex-wrap: wrap; }
   .step { width: 32px; height: 6px; border-radius: 99px; background: #e2e8f0; transition: background .3s; }
   .step.done   { background: #F0A500; }
   .step.active { background: #3182ce; }
 
-  /* CHALLENGE */
   .c-num { font-size: 11px; font-weight: 600; color: #718096; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .5px; }
-  .c-ctx { font-size: 13px; color: #4a5568; background: #ebf8ff; padding: 10px 14px; border-radius: 8px; margin-bottom: 10px; border-left: 3px solid #3182ce; line-height: 1.5; }
-  .c-q   { font-size: 16px; font-weight: 600; color: #1a202c; margin-bottom: 14px; line-height: 1.5; }
+  .c-ctx { font-size: 13px; color: #4a5568; background: #ebf8ff; padding: 10px 14px; border-radius: 8px; margin-bottom: 10px; border-left: 3px solid #3182ce; line-height: 1.7; }
+  .c-q   { font-size: 16px; font-weight: 600; color: #1a202c; margin-bottom: 14px; line-height: 1.7; }
   .opts  { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
-  .opt-btn { text-align: left; padding: 12px 16px; border-radius: 8px; border: 1px solid #e2e8f0; background: #fff; font-size: 13px; color: #2d3748; cursor: pointer; transition: all .12s; font-family: inherit; }
+  .opt-btn { text-align: left; padding: 12px 16px; border-radius: 8px; border: 1px solid #e2e8f0; background: #fff; font-size: 13px; color: #2d3748; cursor: pointer; transition: all .12s; font-family: inherit; line-height: 1.5; }
   .opt-btn:hover:not(:disabled) { background: #f7fafc; border-color: #cbd5e0; }
   .opt-btn.correct { background: #f0fff4; border-color: #68d391; color: #276749; font-weight: 600; }
   .opt-btn.wrong   { background: #fff5f5; border-color: #fc8181; color: #c53030; }
   .opt-btn.reveal  { background: #f0fff4; border-color: #68d391; color: #276749; opacity: .65; }
   .opt-btn:disabled { cursor: default; }
-  .fb { font-size: 13px; padding: 10px 14px; border-radius: 8px; margin-bottom: 12px; display: none; line-height: 1.5; }
+  .fb { font-size: 13px; padding: 10px 14px; border-radius: 8px; margin-bottom: 12px; display: none; line-height: 1.6; }
   .fb.show { display: block; }
   .fb.ok  { background: #f0fff4; color: #276749; border: 1px solid #c6f6d5; }
   .fb.err { background: #fff5f5; color: #c53030; border: 1px solid #fed7d7; }
@@ -74,7 +113,6 @@
   .next-c:hover { background: #bee3f8; }
   .next-c.show { display: inline-block; }
 
-  /* REWARD */
   .reward-screen { text-align: center; padding: 2.5rem 1rem; background: #fff; border-radius: 12px; border: 1px solid #e2e8f0; }
   .reward-icon  { font-size: 56px; margin-bottom: 14px; }
   .reward-title { font-size: 24px; font-weight: 700; color: #1a202c; margin-bottom: 6px; }
@@ -84,12 +122,10 @@
   .map-btn { margin-top: 20px; padding: 11px 30px; font-size: 14px; font-weight: 600; border-radius: 8px; border: 1px solid #e2e8f0; background: #fff; color: #2d3748; cursor: pointer; font-family: inherit; }
   .map-btn:hover { background: #f7fafc; }
 
-  /* TOAST */
   #toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(60px); opacity: 0; transition: all .3s; background: #1a202c; border-radius: 99px; padding: 10px 22px; font-size: 13px; font-weight: 600; color: #fff; white-space: nowrap; z-index: 999; pointer-events: none; }
   #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
   @media (max-width: 480px) {
-    .hud { gap: 6px; }
     .hud-sep { display: none; }
     .missions { grid-template-columns: 1fr; }
   }
@@ -97,30 +133,27 @@
 </head>
 <body>
 <div id="app">
-  <!-- HUD -->
   <div class="hud">
-    <div class="hud-item">⚡ Nível <span id="hud-level">1</span></div>
+    <div class="hud-item">&#9889; N&#237;vel <span id="hud-level">1</span></div>
     <div class="hud-sep"></div>
-    <div class="hud-item">🏆 <span id="hud-xp">0</span> XP</div>
+    <div class="hud-item">&#127942; <span id="hud-xp">0</span> XP</div>
     <div class="hud-sep"></div>
-    <div class="hud-item" id="hud-lives">❤️❤️❤️</div>
+    <div class="hud-item" id="hud-lives">&#10084;&#65039;&#10084;&#65039;&#10084;&#65039;</div>
     <div class="hud-sep"></div>
     <div class="xp-bar-wrap">
       <div class="xp-bar-bg"><div class="xp-bar-fill" id="xp-bar" style="width:0%"></div></div>
-      <div class="xp-label" id="xp-label">0 / 100 XP para nível 2</div>
+      <div class="xp-label" id="xp-label">0 / 100 XP para n&#237;vel 2</div>
     </div>
   </div>
 
-  <!-- MAP -->
   <div id="screen-map" class="screen active">
-    <div class="map-title">🗺️ Mapa de Missões — Vetores</div>
-    <div class="map-sub">Complete as missões em ordem para desbloquear novas. Cada missão é um problema real de Engenharia!</div>
+    <div class="map-title">&#128506;&#65039; Mapa de Miss&#245;es &#8212; Vetores</div>
+    <div class="map-sub">Complete as miss&#245;es em ordem para desbloquear novas. Cada miss&#227;o &#233; um problema real de Engenharia!</div>
     <div class="missions" id="missions-grid"></div>
   </div>
 
-  <!-- MISSION -->
   <div id="screen-mission" class="screen">
-    <button class="back-btn" onclick="goMap()">← Voltar ao mapa</button>
+    <button class="back-btn" onclick="goMap()">&#8592; Voltar ao mapa</button>
     <div class="mission-header">
       <h2 id="m-title-h"></h2>
       <p id="m-desc-h"></p>
@@ -129,7 +162,6 @@
     <div id="challenge-area"></div>
   </div>
 
-  <!-- REWARD -->
   <div id="screen-reward" class="screen">
     <div class="reward-screen">
       <div class="reward-icon" id="r-icon"></div>
@@ -137,141 +169,354 @@
       <div class="reward-sub" id="r-sub"></div>
       <div class="reward-badges" id="r-badges"></div>
       <div id="r-stats"></div>
-      <button class="map-btn" onclick="goMap()">🗺️ Voltar ao mapa</button>
+      <button class="map-btn" onclick="goMap()">&#128506;&#65039; Voltar ao mapa</button>
     </div>
   </div>
 </div>
 <div id="toast"></div>
 
 <script>
-const LEVELS=[0,100,250,450,700,1000];
-const missions=[
-  {id:'m1',icon:'🏗️',title:'Missão 1 — Canteiro de Obras',short:'Forças em estruturas',desc:'Uma viga está sujeita a forças. Calcule módulos e identifique vetores para garantir a segurança da estrutura.',xp:80,badge:'🏗️ Estruturista',requires:[],challenges:[
-    {ctx:'Uma força F⃗ age sobre uma viga com componentes Fx = 60 kN e Fy = 80 kN.',q:'Qual é a magnitude (módulo) da força resultante |F⃗|?',opts:['100 kN','140 kN','72 kN','68 kN'],ans:0,exp:'|F⃗| = √(60² + 80²) = √10000 = 100 kN. Triângulo 3-4-5 escalado!'},
-    {ctx:'Mesma força F⃗ = (60, 80) kN.',q:'Qual é o vetor unitário F̂ na direção da força?',opts:['(0,6 ; 0,8)','(60 ; 80)','(0,8 ; 0,6)','(0,5 ; 0,5)'],ans:0,exp:'F̂ = F⃗/|F⃗| = (60/100 ; 80/100) = (0,6 ; 0,8). Verificação: 0,6²+0,8² = 1 ✓'},
-    {ctx:'Duas forças: F₁⃗ = (30, 50) kN e F₂⃗ = (−10, 20) kN.',q:'Qual é a força resultante F₁⃗ + F₂⃗?',opts:['(20, 70) kN','(40, 30) kN','(30, 70) kN','(20, 30) kN'],ans:0,exp:'(30+(−10), 50+20) = (20, 70) kN. Soma vetorial componente a componente.'},
-    {ctx:'Uma viga horizontal tem força F⃗ = (0, −50) kN.',q:'Qual é a direção deste vetor?',opts:['Horizontal, sentido positivo','Vertical, sentido negativo (para baixo)','Diagonal 45°','Horizontal, sentido negativo'],ans:1,exp:'vx = 0: sem componente horizontal. vy = −50 < 0: aponta para baixo (sentido negativo do eixo y).'},
-  ]},
-  {id:'m2',icon:'⚡',title:'Missão 2 — Circuito Elétrico',short:'Campos e potência',desc:'Analise vetores de campo elétrico. O produto escalar é fundamental para calcular potência e energia.',xp:100,badge:'⚡ Eletricista',requires:['m1'],challenges:[
-    {ctx:'Campo E⃗ = (3, 4) V/m e deslocamento d⃗ = (6, 0) m.',q:'Qual é o trabalho W = E⃗ · d⃗?',opts:['18 J','42 J','24 J','0 J'],ans:0,exp:'E⃗ · d⃗ = 3·6 + 4·0 = 18 J. O produto escalar seleciona a componente paralela ao deslocamento.'},
-    {ctx:'Dois campos: E₁⃗ = (2, 0) e E₂⃗ = (0, 3).',q:'Qual é E₁⃗ · E₂⃗ e o que indica?',opts:['0 — são perpendiculares (ortogonais)','6 — são paralelos','5 — mesma magnitude','1 — são unitários'],ans:0,exp:'E₁⃗ · E₂⃗ = 2·0 + 0·3 = 0. Produto escalar nulo indica vetores perpendiculares (θ = 90°).'},
-    {ctx:'Campo E⃗ = (1, 1, 1) V/m.',q:'Qual é a magnitude |E⃗|?',opts:['1 V/m','√3 ≈ 1,73 V/m','3 V/m','√2 V/m'],ans:1,exp:'|E⃗| = √(1²+1²+1²) = √3 ≈ 1,73 V/m. Em 3D, somamos os três quadrados.'},
-    {ctx:'Potência P = F⃗ · v⃗, com F⃗ = (4, 3) N e v⃗ = (2, −1) m/s.',q:'Qual é a potência P?',opts:['5 W','10 W','14 W','1 W'],ans:0,exp:'P = 4·2 + 3·(−1) = 8 − 3 = 5 W. Produto escalar é a base para calcular potência.'},
-  ]},
-  {id:'m3',icon:'🚀',title:'Missão 3 — Lançamento de Foguete',short:'Decomposição e trajetória',desc:'Decomponha vetores de velocidade e aceleração para calcular a trajetória de um foguete.',xp:120,badge:'🚀 Aeroespacial',requires:['m2'],challenges:[
-    {ctx:'Foguete lançado com v = 200 m/s e ângulo θ = 60° com a horizontal.',q:'Qual é a componente horizontal vx?',opts:['100 m/s','173,2 m/s','141,4 m/s','200 m/s'],ans:0,exp:'vx = 200·cos(60°) = 200·0,5 = 100 m/s. E vy = 200·sin(60°) ≈ 173,2 m/s.'},
-    {ctx:'v⃗ = (100, 173) m/s. Aceleração a⃗ = (0, −9,8) m/s².',q:'Após 1 segundo, qual é a nova vy?',opts:['173 m/s','163,2 m/s','182,8 m/s','9,8 m/s'],ans:1,exp:'vy_novo = 173 + (−9,8)·1 = 163,2 m/s. vx não muda (sem resistência do ar).'},
-    {ctx:'Empuxo F⃗_motor = (0, 500) kN. Peso P⃗ = (0, −200) kN.',q:'Qual é a força resultante vertical?',opts:['700 kN para cima','300 kN para cima','300 kN para baixo','700 kN para baixo'],ans:1,exp:'F_res = (0, 500+( −200)) = (0, 300) kN. 300 kN para cima — o foguete acelera!'},
-    {ctx:'Velocidade de escape: vx = 7000 m/s e vy = 7000 m/s.',q:'Qual é o ângulo θ com a horizontal?',opts:['30°','45°','60°','90°'],ans:1,exp:'tan(θ) = vy/vx = 1 → θ = 45°. Quando vx = vy, o vetor aponta a 45°.'},
-  ]},
-  {id:'m4',icon:'🤖',title:'Missão 4 — Robótica Industrial',short:'Produto vetorial e torque',desc:'Calcule torques de um braço robótico usando produto vetorial. Essencial para programar movimentos precisos.',xp:150,badge:'🤖 Roboticista',requires:['m3'],challenges:[
-    {ctx:'Força F⃗ = (0, 0, 10) N no ponto r⃗ = (2, 0, 0) m.',q:'O torque τ⃗ = r⃗ × F⃗. Qual é sua direção?',opts:['Eixo x','Eixo y','Eixo z','Diagonal (1,1,0)'],ans:1,exp:'r⃗ × F⃗: y-comp = r_z·F_x − r_x·F_z = 0 − 20 = −20. Resultado: (0,−20,0) — eixo y!'},
-    {ctx:'Vetores base: a⃗ = (1, 0, 0) e b⃗ = (0, 1, 0).',q:'Qual é a⃗ × b⃗?',opts:['(0, 0, 1)','(1, 1, 0)','(0, 0, −1)','(1, 0, 1)'],ans:0,exp:'î × ĵ = k̂ = (0, 0, 1). Regra da mão direita — resultado padrão dos vetores base.'},
-    {ctx:'|r⃗| = 0,5 m, |F⃗| = 40 N e θ = 90°.',q:'Qual é a magnitude do torque |τ⃗|?',opts:['20 N·m','80 N·m','0 N·m','40 N·m'],ans:0,exp:'|τ⃗| = 0,5·40·sin(90°) = 20 N·m. Máximo torque quando a força é perpendicular ao braço!'},
-    {ctx:'Força F⃗ paralela ao braço r⃗ (θ = 0°).',q:'Qual é o torque resultante?',opts:['Máximo possível','|r⃗|·|F⃗|','Zero (0 N·m)','Indefinido'],ans:2,exp:'|τ⃗| = |r⃗||F⃗|·sin(0°) = 0. Força paralela ao braço não gera rotação — torque nulo!'},
-  ]},
-  {id:'m5',icon:'🌊',title:'Missão Final — Plataforma Offshore',short:'Desafio integrado',desc:'Use todos os conceitos para analisar forças do vento, correntes e estruturas de uma plataforma de petróleo.',xp:200,badge:'🌊 Engenheiro Sênior',requires:['m4'],challenges:[
-    {ctx:'Vento: v⃗_vento = (15, 0) m/s. Corrente: v⃗_corrente = (0, 8) m/s.',q:'Qual é a velocidade resultante v⃗_res?',opts:['(15, 8) m/s','(23, 0) m/s','(15, −8) m/s','(8, 15) m/s'],ans:0,exp:'Soma componente a componente: (15+0, 0+8) = (15, 8) m/s.'},
-    {ctx:'v⃗_res = (15, 8) m/s.',q:'Qual é a magnitude da velocidade resultante?',opts:['23 m/s','15 m/s','17 m/s','13 m/s'],ans:2,exp:'|v⃗| = √(15²+8²) = √(225+64) = √289 = 17 m/s.'},
-    {ctx:'Força do vento F⃗ = (200, 0) kN. Deslocamento d⃗ = (0,1 ; 0,05) m.',q:'Qual é o trabalho W = F⃗ · d⃗?',opts:['20 kJ','30 kJ','10 kJ','25 kJ'],ans:0,exp:'W = 200·0,1 + 0·0,05 = 20 kJ. Apenas a componente paralela ao deslocamento realiza trabalho.'},
-    {ctx:'Âncora presa por cabo: T⃗ = (−80, −60) kN.',q:'Qual é o módulo da tensão no cabo?',opts:['140 kN','100 kN','120 kN','90 kN'],ans:1,exp:'|T⃗| = √(80²+60²) = √10000 = 100 kN. Triângulo 3-4-5 × 20!'},
-    {ctx:'Duas forças ortogonais: F₁⃗ = (50, 0) kN e F₂⃗ = (0, 50) kN.',q:'Qual é F₁⃗ · F₂⃗ e o que indica estruturalmente?',opts:['0 — forças perpendiculares, análise independente por eixo','2500 — forças se somam','100 — módulo resultante','50 — média das forças'],ans:0,exp:'F₁⃗ · F₂⃗ = 50·0 + 0·50 = 0. Forças ortogonais não interferem entre si — importante para análise estrutural independente dos eixos!'},
-  ]},
+// Helper: render vector arrow above letter
+// v('F') => <span class="vec">F</span>
+// v('F','1') => <span class="vec">F<sub>1</sub></span>
+// h('u') => <span class="hat">u</span>  (unit vector hat)
+function v(letter, sub) {
+  var s = sub ? letter + '<sub>' + sub + '</sub>' : letter;
+  return '<span class="vec">' + s + '</span>';
+}
+function h(letter) { return '<span class="hat">' + letter + '</span>'; }
+
+const LEVELS = [0, 100, 250, 450, 700, 1000];
+
+const missions = [
+  {
+    id: 'm1', icon: '&#127959;&#65039;',
+    title: 'Miss&#227;o 1 &#8212; Canteiro de Obras',
+    short: 'For&#231;as em estruturas',
+    desc: 'Uma viga est&#225; sujeita a for&#231;as. Calcule m&#243;dulos e identifique vetores para garantir a seguran&#231;a da estrutura.',
+    xp: 80, badge: '&#127959;&#65039; Estruturista', requires: [],
+    challenges: [
+      {
+        ctx: function(){ return 'Uma for&#231;a ' + v('F') + ' age sobre uma viga com componentes F<sub>x</sub> = 60 kN e F<sub>y</sub> = 80 kN.'; },
+        q:   function(){ return 'Qual &#233; a magnitude (m&#243;dulo) da for&#231;a resultante |' + v('F') + '|?'; },
+        opts: ['100 kN', '140 kN', '72 kN', '68 kN'], ans: 0,
+        exp: '|' + 'F| = &#8730;(60&#178; + 80&#178;) = &#8730;10000 = 100 kN. Tri&#226;ngulo 3-4-5 escalado!'
+      },
+      {
+        ctx: function(){ return 'Mesma for&#231;a ' + v('F') + ' = (60, 80) kN.'; },
+        q:   function(){ return 'Qual &#233; o vetor unit&#225;rio ' + h('F') + ' na dire&#231;&#227;o da for&#231;a?'; },
+        opts: ['(0,6 ; 0,8)', '(60 ; 80)', '(0,8 ; 0,6)', '(0,5 ; 0,5)'], ans: 0,
+        exp: h('F') + ' = ' + v('F') + '/|' + v('F') + '| = (60/100 ; 80/100) = (0,6 ; 0,8). Verifica&#231;&#227;o: 0,6&#178;+0,8&#178; = 1 &#10003;'
+      },
+      {
+        ctx: function(){ return 'Duas for&#231;as: ' + v('F','1') + ' = (30, 50) kN e ' + v('F','2') + ' = (&#8722;10, 20) kN.'; },
+        q:   function(){ return 'Qual &#233; a for&#231;a resultante ' + v('F','1') + ' + ' + v('F','2') + '?'; },
+        opts: ['(20, 70) kN', '(40, 30) kN', '(30, 70) kN', '(20, 30) kN'], ans: 0,
+        exp: '(30+(&#8722;10), 50+20) = (20, 70) kN. Soma vetorial componente a componente.'
+      },
+      {
+        ctx: function(){ return 'Uma viga horizontal tem for&#231;a ' + v('F') + ' = (0, &#8722;50) kN (gravidade).'; },
+        q:   function(){ return 'Qual &#233; a dire&#231;&#227;o deste vetor?'; },
+        opts: ['Horizontal, sentido positivo', 'Vertical, sentido negativo (para baixo)', 'Diagonal 45&#176;', 'Horizontal, sentido negativo'], ans: 1,
+        exp: 'v<sub>x</sub> = 0: sem componente horizontal. v<sub>y</sub> = &#8722;50 &lt; 0: aponta para baixo (sentido negativo do eixo y).'
+      }
+    ]
+  },
+  {
+    id: 'm2', icon: '&#9889;',
+    title: 'Miss&#227;o 2 &#8212; Circuito El&#233;trico',
+    short: 'Campos e pot&#234;ncia',
+    desc: 'Analise vetores de campo el&#233;trico. O produto escalar &#233; fundamental para calcular pot&#234;ncia e energia.',
+    xp: 100, badge: '&#9889; Eletricista', requires: ['m1'],
+    challenges: [
+      {
+        ctx: function(){ return 'Campo ' + v('E') + ' = (3, 4) V/m e deslocamento ' + v('d') + ' = (6, 0) m.'; },
+        q:   function(){ return 'Qual &#233; o trabalho W = ' + v('E') + ' &#183; ' + v('d') + '?'; },
+        opts: ['18 J', '42 J', '24 J', '0 J'], ans: 0,
+        exp: v('E') + ' &#183; ' + v('d') + ' = 3&#183;6 + 4&#183;0 = 18 J. O produto escalar seleciona a componente paralela ao deslocamento.'
+      },
+      {
+        ctx: function(){ return 'Dois campos: ' + v('E','1') + ' = (2, 0) e ' + v('E','2') + ' = (0, 3).'; },
+        q:   function(){ return 'Qual &#233; ' + v('E','1') + ' &#183; ' + v('E','2') + ' e o que indica?'; },
+        opts: ['0 &#8212; s&#227;o perpendiculares (ortogonais)', '6 &#8212; s&#227;o paralelos', '5 &#8212; mesma magnitude', '1 &#8212; s&#227;o unit&#225;rios'], ans: 0,
+        exp: v('E','1') + ' &#183; ' + v('E','2') + ' = 2&#183;0 + 0&#183;3 = 0. Produto escalar nulo indica vetores perpendiculares (&#952; = 90&#176;).'
+      },
+      {
+        ctx: function(){ return 'Campo ' + v('E') + ' = (1, 1, 1) V/m.'; },
+        q:   function(){ return 'Qual &#233; a magnitude |' + v('E') + '|?'; },
+        opts: ['1 V/m', '&#8730;3 &#8776; 1,73 V/m', '3 V/m', '&#8730;2 V/m'], ans: 1,
+        exp: '|' + v('E') + '| = &#8730;(1&#178;+1&#178;+1&#178;) = &#8730;3 &#8776; 1,73 V/m. Em 3D, somamos os tr&#234;s quadrados.'
+      },
+      {
+        ctx: function(){ return 'Pot&#234;ncia P = ' + v('F') + ' &#183; ' + v('v') + ', com ' + v('F') + ' = (4, 3) N e ' + v('v') + ' = (2, &#8722;1) m/s.'; },
+        q:   function(){ return 'Qual &#233; a pot&#234;ncia P?'; },
+        opts: ['5 W', '10 W', '14 W', '1 W'], ans: 0,
+        exp: 'P = 4&#183;2 + 3&#183;(&#8722;1) = 8 &#8722; 3 = 5 W. Produto escalar &#233; a base para calcular pot&#234;ncia.'
+      }
+    ]
+  },
+  {
+    id: 'm3', icon: '&#128640;',
+    title: 'Miss&#227;o 3 &#8212; Lan&#231;amento de Foguete',
+    short: 'Decomposi&#231;&#227;o e trajet&#243;ria',
+    desc: 'Decomponha vetores de velocidade e acelera&#231;&#227;o para calcular a trajet&#243;ria de um foguete.',
+    xp: 120, badge: '&#128640; Aeroespacial', requires: ['m2'],
+    challenges: [
+      {
+        ctx: function(){ return 'Foguete lan&#231;ado com |' + v('v') + '| = 200 m/s e &#226;ngulo &#952; = 60&#176; com a horizontal.'; },
+        q:   function(){ return 'Qual &#233; a componente horizontal v<sub>x</sub>?'; },
+        opts: ['100 m/s', '173,2 m/s', '141,4 m/s', '200 m/s'], ans: 0,
+        exp: 'v<sub>x</sub> = 200&#183;cos(60&#176;) = 200&#183;0,5 = 100 m/s. E v<sub>y</sub> = 200&#183;sin(60&#176;) &#8776; 173,2 m/s.'
+      },
+      {
+        ctx: function(){ return v('v') + ' = (100, 173) m/s. Acelera&#231;&#227;o ' + v('a') + ' = (0, &#8722;9,8) m/s&#178;.'; },
+        q:   function(){ return 'Ap&#243;s 1 segundo, qual &#233; a nova v<sub>y</sub>?'; },
+        opts: ['173 m/s', '163,2 m/s', '182,8 m/s', '9,8 m/s'], ans: 1,
+        exp: 'v<sub>y_novo</sub> = 173 + (&#8722;9,8)&#183;1 = 163,2 m/s. v<sub>x</sub> n&#227;o muda (sem resist&#234;ncia do ar).'
+      },
+      {
+        ctx: function(){ return 'Empuxo ' + v('F') + '<sub>motor</sub> = (0, 500) kN. Peso ' + v('P') + ' = (0, &#8722;200) kN.'; },
+        q:   function(){ return 'Qual &#233; a for&#231;a resultante vertical?'; },
+        opts: ['700 kN para cima', '300 kN para cima', '300 kN para baixo', '700 kN para baixo'], ans: 1,
+        exp: v('F') + '<sub>res</sub> = (0, 500+(&#8722;200)) = (0, 300) kN. 300 kN para cima &#8212; o foguete acelera!'
+      },
+      {
+        ctx: function(){ return 'Velocidade de escape: v<sub>x</sub> = 7000 m/s e v<sub>y</sub> = 7000 m/s.'; },
+        q:   function(){ return 'Qual &#233; o &#226;ngulo &#952; com a horizontal?'; },
+        opts: ['30&#176;', '45&#176;', '60&#176;', '90&#176;'], ans: 1,
+        exp: 'tan(&#952;) = v<sub>y</sub>/v<sub>x</sub> = 1 &#8594; &#952; = 45&#176;. Quando v<sub>x</sub> = v<sub>y</sub>, o vetor aponta a 45&#176;.'
+      }
+    ]
+  },
+  {
+    id: 'm4', icon: '&#129302;',
+    title: 'Miss&#227;o 4 &#8212; Rob&#243;tica Industrial',
+    short: 'Produto vetorial e torque',
+    desc: 'Calcule torques de um bra&#231;o rob&#243;tico usando produto vetorial. Essencial para programar movimentos precisos.',
+    xp: 150, badge: '&#129302; Roboticista', requires: ['m3'],
+    challenges: [
+      {
+        ctx: function(){ return 'For&#231;a ' + v('F') + ' = (0, 0, 10) N no ponto ' + v('r') + ' = (2, 0, 0) m.'; },
+        q:   function(){ return 'O torque ' + v('&#964;') + ' = ' + v('r') + ' &#215; ' + v('F') + '. Qual &#233; sua dire&#231;&#227;o?'; },
+        opts: ['Eixo x', 'Eixo y', 'Eixo z', 'Diagonal (1,1,0)'], ans: 1,
+        exp: v('r') + ' &#215; ' + v('F') + ': componente y = r<sub>z</sub>&#183;F<sub>x</sub> &#8722; r<sub>x</sub>&#183;F<sub>z</sub> = 0 &#8722; 20 = &#8722;20. Resultado: (0, &#8722;20, 0) &#8212; eixo y!'
+      },
+      {
+        ctx: function(){ return 'Vetores base: ' + v('a') + ' = (1, 0, 0) e ' + v('b') + ' = (0, 1, 0).'; },
+        q:   function(){ return 'Qual &#233; ' + v('a') + ' &#215; ' + v('b') + '?'; },
+        opts: ['(0, 0, 1)', '(1, 1, 0)', '(0, 0, &#8722;1)', '(1, 0, 1)'], ans: 0,
+        exp: h('i') + ' &#215; ' + h('j') + ' = ' + h('k') + ' = (0, 0, 1). Regra da m&#227;o direita &#8212; resultado padr&#227;o dos vetores base.'
+      },
+      {
+        ctx: function(){ return '|' + v('r') + '| = 0,5 m, |' + v('F') + '| = 40 N e &#952; = 90&#176;.'; },
+        q:   function(){ return 'Qual &#233; a magnitude do torque |' + v('&#964;') + '|?'; },
+        opts: ['20 N&#183;m', '80 N&#183;m', '0 N&#183;m', '40 N&#183;m'], ans: 0,
+        exp: '|' + v('&#964;') + '| = 0,5&#183;40&#183;sin(90&#176;) = 20 N&#183;m. M&#225;ximo torque quando a for&#231;a &#233; perpendicular ao bra&#231;o!'
+      },
+      {
+        ctx: function(){ return 'For&#231;a ' + v('F') + ' paralela ao bra&#231;o ' + v('r') + ' (&#952; = 0&#176;).'; },
+        q:   function(){ return 'Qual &#233; o torque resultante?'; },
+        opts: ['M&#225;ximo poss&#237;vel', '|' + v('r') + '|&#183;|' + v('F') + '|', 'Zero (0 N&#183;m)', 'Indefinido'], ans: 2,
+        exp: '|' + v('&#964;') + '| = |' + v('r') + '|&#183;|' + v('F') + '|&#183;sin(0&#176;) = 0. For&#231;a paralela ao bra&#231;o n&#227;o gera rota&#231;&#227;o &#8212; torque nulo!'
+      }
+    ]
+  },
+  {
+    id: 'm5', icon: '&#127754;',
+    title: 'Miss&#227;o Final &#8212; Plataforma Offshore',
+    short: 'Desafio integrado',
+    desc: 'Use todos os conceitos para analisar for&#231;as do vento, correntes e estruturas de uma plataforma de petr&#243;leo.',
+    xp: 200, badge: '&#127754; Engenheiro S&#234;nior', requires: ['m4'],
+    challenges: [
+      {
+        ctx: function(){ return 'Vento: ' + v('v') + '<sub>vento</sub> = (15, 0) m/s. Corrente: ' + v('v') + '<sub>corrente</sub> = (0, 8) m/s.'; },
+        q:   function(){ return 'Qual &#233; a velocidade resultante ' + v('v') + '<sub>res</sub>?'; },
+        opts: ['(15, 8) m/s', '(23, 0) m/s', '(15, &#8722;8) m/s', '(8, 15) m/s'], ans: 0,
+        exp: 'Soma componente a componente: (15+0, 0+8) = (15, 8) m/s.'
+      },
+      {
+        ctx: function(){ return v('v') + '<sub>res</sub> = (15, 8) m/s.'; },
+        q:   function(){ return 'Qual &#233; a magnitude da velocidade resultante?'; },
+        opts: ['23 m/s', '15 m/s', '17 m/s', '13 m/s'], ans: 2,
+        exp: '|' + v('v') + '| = &#8730;(15&#178;+8&#178;) = &#8730;289 = 17 m/s.'
+      },
+      {
+        ctx: function(){ return 'For&#231;a do vento ' + v('F') + ' = (200, 0) kN. Deslocamento ' + v('d') + ' = (0,1 ; 0,05) m.'; },
+        q:   function(){ return 'Qual &#233; o trabalho W = ' + v('F') + ' &#183; ' + v('d') + '?'; },
+        opts: ['20 kJ', '30 kJ', '10 kJ', '25 kJ'], ans: 0,
+        exp: 'W = 200&#183;0,1 + 0&#183;0,05 = 20 kJ. Apenas a componente paralela ao deslocamento realiza trabalho.'
+      },
+      {
+        ctx: function(){ return '&#194;ncora presa por cabo: ' + v('T') + ' = (&#8722;80, &#8722;60) kN.'; },
+        q:   function(){ return 'Qual &#233; o m&#243;dulo da tens&#227;o no cabo |' + v('T') + '|?'; },
+        opts: ['140 kN', '100 kN', '120 kN', '90 kN'], ans: 1,
+        exp: '|' + v('T') + '| = &#8730;(80&#178;+60&#178;) = &#8730;10000 = 100 kN. Tri&#226;ngulo 3-4-5 &#215; 20!'
+      },
+      {
+        ctx: function(){ return 'Duas for&#231;as ortogonais: ' + v('F','1') + ' = (50, 0) kN e ' + v('F','2') + ' = (0, 50) kN.'; },
+        q:   function(){ return 'Qual &#233; ' + v('F','1') + ' &#183; ' + v('F','2') + ' e o que indica estruturalmente?'; },
+        opts: ['0 &#8212; for&#231;as perpendiculares, an&#225;lise independente por eixo', '2500 &#8212; for&#231;as se somam', '100 &#8212; m&#243;dulo resultante', '50 &#8212; m&#233;dia das for&#231;as'], ans: 0,
+        exp: v('F','1') + ' &#183; ' + v('F','2') + ' = 50&#183;0 + 0&#183;50 = 0. For&#231;as ortogonais n&#227;o interferem entre si &#8212; importante para an&#225;lise estrutural independente dos eixos!'
+      }
+    ]
+  }
 ];
 
-let xp=0,lives=3,level=1,completed=new Set(),curMission=null,curChallenge=0,missionScore=0;
+let xp = 0, lives = 3, level = 1;
+let completed = new Set();
+let curMission = null, curChallenge = 0, missionScore = 0;
 
-function updateHUD(){
-  const nxp=LEVELS[level]||99999, pxp=LEVELS[level-1]||0;
-  const pct=Math.min(100,Math.round((xp-pxp)/(nxp-pxp)*100));
-  document.getElementById('hud-level').textContent=level;
-  document.getElementById('hud-xp').textContent=xp;
-  document.getElementById('hud-lives').innerHTML='❤️'.repeat(lives)+'🖤'.repeat(Math.max(0,3-lives));
-  document.getElementById('xp-bar').style.width=pct+'%';
-  document.getElementById('xp-label').textContent=`${xp} / ${nxp} XP para nível ${level+1}`;
+function updateHUD() {
+  var nxp = LEVELS[level] || 99999, pxp = LEVELS[level-1] || 0;
+  var pct = Math.min(100, Math.round((xp - pxp) / (nxp - pxp) * 100));
+  document.getElementById('hud-level').textContent = level;
+  document.getElementById('hud-xp').textContent = xp;
+  var h = '';
+  for (var i = 0; i < 3; i++) h += i < lives ? '&#10084;&#65039;' : '&#129084;';
+  document.getElementById('hud-lives').innerHTML = h;
+  document.getElementById('xp-bar').style.width = pct + '%';
+  document.getElementById('xp-label').textContent = xp + ' / ' + nxp + ' XP para n\u00edvel ' + (level + 1);
 }
-function gainXP(v){
-  xp+=v;
-  while(level<LEVELS.length-1&&xp>=LEVELS[level]){level++;toast('🎉 Subiu para Nível '+level+'!');}
+
+function gainXP(amount) {
+  xp += amount;
+  while (level < LEVELS.length - 1 && xp >= LEVELS[level]) {
+    level++;
+    toast('&#127881; Subiu para N\u00edvel ' + level + '!');
+  }
   updateHUD();
 }
-function loseLife(){if(lives>0)lives--;updateHUD();if(lives===0)toast('💀 Sem vidas! Continue mesmo assim.');}
-function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
-function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('screen-'+id).classList.add('active');}
-function goMap(){show('map');renderMap();}
 
-function renderMap(){
-  document.getElementById('missions-grid').innerHTML=missions.map(m=>{
-    const locked=m.requires.some(r=>!completed.has(r)),done=completed.has(m.id);
-    return `<div class="mission-card${locked?' locked':''}${done?' done':''}" onclick="${locked?'':(`startMission('${m.id}')`)}">
-      <div class="m-icon">${m.icon}</div>
-      <div class="m-title">${m.title}</div>
-      <div class="m-desc">${m.short}${locked?' 🔒':''}</div>
-      <div class="m-meta">
-        <span class="badge badge-gold">+${m.xp} XP</span>
-        <span class="badge badge-blue">${m.challenges.length} desafios</span>
-        ${done?'<span class="badge badge-green">Concluída ✓</span>':''}
-      </div>
-    </div>`;
+function loseLife() {
+  if (lives > 0) lives--;
+  updateHUD();
+  if (lives === 0) toast('&#128480;&#65039; Sem vidas! Continue mesmo assim.');
+}
+
+function toast(msg) {
+  var t = document.getElementById('toast');
+  t.innerHTML = msg;
+  t.classList.add('show');
+  setTimeout(function() { t.classList.remove('show'); }, 2500);
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
+  document.getElementById('screen-' + id).classList.add('active');
+}
+
+function goMap() { showScreen('map'); renderMap(); }
+
+function renderMap() {
+  var html = '';
+  missions.forEach(function(m) {
+    var locked = m.requires.some(function(r) { return !completed.has(r); });
+    var done = completed.has(m.id);
+    html += '<div class="mission-card' + (locked ? ' locked' : '') + (done ? ' done' : '') + '"'
+          + ' onclick="' + (locked ? '' : 'startMission(\'' + m.id + '\')') + '">'
+          + '<div class="m-icon">' + m.icon + '</div>'
+          + '<div class="m-title">' + m.title + '</div>'
+          + '<div class="m-desc">' + m.short + (locked ? ' &#128274;' : '') + '</div>'
+          + '<div class="m-meta">'
+          + '<span class="badge badge-gold">+' + m.xp + ' XP</span>'
+          + '<span class="badge badge-blue">' + m.challenges.length + ' desafios</span>'
+          + (done ? '<span class="badge badge-green">Conclu\u00edda &#10003;</span>' : '')
+          + '</div></div>';
+  });
+  document.getElementById('missions-grid').innerHTML = html;
+}
+
+function startMission(id) {
+  curMission = missions.find(function(m) { return m.id === id; });
+  curChallenge = 0;
+  missionScore = 0;
+  document.getElementById('m-title-h').innerHTML = curMission.title;
+  document.getElementById('m-desc-h').textContent = curMission.desc;
+  showScreen('mission');
+  renderSteps();
+  renderChallenge();
+}
+
+function renderSteps() {
+  var html = '';
+  curMission.challenges.forEach(function(_, i) {
+    html += '<div class="step' + (i < curChallenge ? ' done' : i === curChallenge ? ' active' : '') + '"></div>';
+  });
+  document.getElementById('steps-bar').innerHTML = html;
+}
+
+function renderChallenge() {
+  var c = curMission.challenges[curChallenge];
+  var optsHtml = c.opts.map(function(o, i) {
+    return '<button class="opt-btn" onclick="pickAns(' + i + ')">' + String.fromCharCode(65 + i) + ') ' + o + '</button>';
   }).join('');
+  document.getElementById('challenge-area').innerHTML =
+    '<div class="challenge">'
+    + '<div class="c-num">Desafio ' + (curChallenge + 1) + ' de ' + curMission.challenges.length + '</div>'
+    + '<div class="c-ctx">&#128203; ' + c.ctx() + '</div>'
+    + '<div class="c-q">' + c.q() + '</div>'
+    + '<div class="opts">' + optsHtml + '</div>'
+    + '<div class="fb" id="fb"></div>'
+    + '<button class="next-c" id="next-c" onclick="nextChallenge()">'
+    + (curChallenge === curMission.challenges.length - 1 ? 'Ver recompensa &#127942;' : 'Pr\u00f3ximo desafio \u2192')
+    + '</button></div>';
 }
 
-function startMission(id){
-  curMission=missions.find(m=>m.id===id);
-  curChallenge=0; missionScore=0;
-  document.getElementById('m-title-h').textContent=curMission.title;
-  document.getElementById('m-desc-h').textContent=curMission.desc;
-  show('mission'); renderSteps(); renderChallenge();
-}
-
-function renderSteps(){
-  document.getElementById('steps-bar').innerHTML=curMission.challenges.map((_,i)=>
-    `<div class="step${i<curChallenge?' done':i===curChallenge?' active':''}"></div>`
-  ).join('');
-}
-
-function renderChallenge(){
-  const c=curMission.challenges[curChallenge];
-  document.getElementById('challenge-area').innerHTML=`
-    <div class="challenge">
-      <div class="c-num">Desafio ${curChallenge+1} de ${curMission.challenges.length}</div>
-      ${c.ctx?`<div class="c-ctx">📋 ${c.ctx}</div>`:''}
-      <div class="c-q">${c.q}</div>
-      <div class="opts">${c.opts.map((o,i)=>`<button class="opt-btn" onclick="pickAns(${i})">${String.fromCharCode(65+i)}) ${o}</button>`).join('')}</div>
-      <div class="fb" id="fb"></div>
-      <button class="next-c" id="next-c" onclick="nextChallenge()">${curChallenge===curMission.challenges.length-1?'Ver recompensa 🏆':'Próximo desafio →'}</button>
-    </div>`;
-}
-
-function pickAns(idx){
-  const c=curMission.challenges[curChallenge];
-  const btns=document.querySelectorAll('.opt-btn');
-  if(btns[0].disabled)return;
-  btns.forEach(b=>b.disabled=true);
-  const fb=document.getElementById('fb'),nxt=document.getElementById('next-c');
-  if(idx===c.ans){btns[idx].classList.add('correct');fb.className='fb show ok';fb.textContent='✓ Correto! '+c.exp;missionScore++;gainXP(20);toast('+20 XP ⚡');}
-  else{btns[idx].classList.add('wrong');btns[c.ans].classList.add('reveal');fb.className='fb show err';fb.textContent='✗ Incorreto. '+c.exp;loseLife();}
+function pickAns(idx) {
+  var c = curMission.challenges[curChallenge];
+  var btns = document.querySelectorAll('.opt-btn');
+  if (btns[0].disabled) return;
+  btns.forEach(function(b) { b.disabled = true; });
+  var fb = document.getElementById('fb');
+  var nxt = document.getElementById('next-c');
+  if (idx === c.ans) {
+    btns[idx].classList.add('correct');
+    fb.className = 'fb show ok';
+    fb.innerHTML = '&#10003; Correto! ' + c.exp;
+    missionScore++;
+    gainXP(20);
+    toast('+20 XP &#9889;');
+  } else {
+    btns[idx].classList.add('wrong');
+    btns[c.ans].classList.add('reveal');
+    fb.className = 'fb show err';
+    fb.innerHTML = '&#10007; Incorreto. ' + c.exp;
+    loseLife();
+  }
   nxt.classList.add('show');
 }
 
-function nextChallenge(){
+function nextChallenge() {
   curChallenge++;
-  if(curChallenge>=curMission.challenges.length){showReward();return;}
-  renderSteps(); renderChallenge();
+  if (curChallenge >= curMission.challenges.length) { showReward(); return; }
+  renderSteps();
+  renderChallenge();
 }
 
-function showReward(){
-  const total=curMission.challenges.length,pct=Math.round(missionScore/total*100),perfect=missionScore===total;
-  completed.add(curMission.id); gainXP(curMission.xp);
-  document.getElementById('r-icon').textContent=perfect?'🏆':pct>=75?'🥈':'🥉';
-  document.getElementById('r-title').textContent=perfect?'Missão concluída com perfeição!':'Missão concluída!';
-  document.getElementById('r-sub').textContent=curMission.title;
-  document.getElementById('r-badges').innerHTML=`<span class="badge badge-gold">+${curMission.xp} XP</span><span class="badge badge-blue">${missionScore}/${total} corretos</span><span class="badge badge-green">${curMission.badge}</span>${perfect?'<span class="badge badge-gold">⭐ Perfeito!</span>':''}`;
-  document.getElementById('r-stats').innerHTML=`<span class="reward-stat">Precisão: ${pct}%</span> <span class="reward-stat">XP total: ${xp}</span> <span class="reward-stat">Nível: ${level}</span>`;
-  show('reward');
+function showReward() {
+  var total = curMission.challenges.length;
+  var pct = Math.round(missionScore / total * 100);
+  var perfect = missionScore === total;
+  completed.add(curMission.id);
+  gainXP(curMission.xp);
+  document.getElementById('r-icon').textContent = perfect ? '\uD83C\uDFC6' : pct >= 75 ? '\uD83E\uDD48' : '\uD83E\uDD49';
+  document.getElementById('r-title').textContent = perfect ? 'Miss\u00e3o conclu\u00edda com perfei\u00e7\u00e3o!' : 'Miss\u00e3o conclu\u00edda!';
+  document.getElementById('r-sub').innerHTML = curMission.title;
+  document.getElementById('r-badges').innerHTML =
+    '<span class="badge badge-gold">+' + curMission.xp + ' XP</span>'
+    + '<span class="badge badge-blue">' + missionScore + '/' + total + ' corretos</span>'
+    + '<span class="badge badge-green">' + curMission.badge + '</span>'
+    + (perfect ? '<span class="badge badge-gold">&#11088; Perfeito!</span>' : '');
+  document.getElementById('r-stats').innerHTML =
+    '<span class="reward-stat">Precis\u00e3o: ' + pct + '%</span> '
+    + '<span class="reward-stat">XP total: ' + xp + '</span> '
+    + '<span class="reward-stat">N\u00edvel: ' + level + '</span>';
+  showScreen('reward');
 }
 
-updateHUD(); renderMap();
+updateHUD();
+renderMap();
 </script>
 </body>
+</html>
 </html>
