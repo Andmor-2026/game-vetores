@@ -237,8 +237,7 @@ function h(letter) { return '<span class="hat">' + letter + '</span>'; }
 
 
 // ── GOOGLE SHEETS INTEGRATION ──
-var SHEET_URL = 'https://script.google.com/macros/s/AKfycbxspCz3Rb_HTyPyHszpNkegI9_PwtwgPgTzs65dO7cb1dGyWtki8yxhlIr5_xFUumX3lw/exec
-';
+var SHEET_URL = 'COLE_AQUI_A_URL_DO_APPS_SCRIPT';
 var studentName = '';
 
 function startGame() {
@@ -250,7 +249,7 @@ function startGame() {
 }
 
 function sendToSheets(data) {
-  if (!SHEET_URL || SHEET_URL === 'https://script.google.com/macros/s/AKfycbxspCz3Rb_HTyPyHszpNkegI9_PwtwgPgTzs65dO7cb1dGyWtki8yxhlIr5_xFUumX3lw/exec') return;
+  var SHEET_URL = 'COLE_AQUI_A_URL_DO_APPS_SCRIPT';
   var payload = Object.assign({ aluno: studentName, timestamp: new Date().toLocaleString('pt-BR') }, data);
   fetch(SHEET_URL, {
     method: 'POST',
