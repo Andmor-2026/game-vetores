@@ -237,8 +237,19 @@ function v(letter, sub) {
 function h(letter) { return '<span class="hat">' + letter + '</span>'; }
 
 
-// ── GOOGLE SHEETS INTEGRATION ──
-var SHEET_URL = 'https://script.google.com/macros/s/AKfycbwBwRIr72nJTsQn_8wvfQjwt-xCtVVMJOky-cAczCweohF-ZYo5PZhBr03p_tYAs900/exec';
+// ── GOOGLE FORMS INTEGRATION ──
+var FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSc29QTmbzW0L0uSJDNs2-NJmqhbcc5ftYjBInDcRshObfB7cA/formResponse';
+var FORM_FIELDS = {
+  aluno     : 'entry.786571562',
+  evento    : 'entry.1548357972',
+  missao    : 'entry.1604370649',
+  acertos   : 'entry.2082417463',
+  total     : 'entry.101417237',
+  precisao  : 'entry.1203464015',
+  xp        : 'entry.1711058200',
+  nivel     : 'entry.1095743915',
+  timestamp : 'entry.139840021'
+};
 var studentName = '';
 
 function startGame() {
@@ -258,22 +269,22 @@ function startGame() {
 }
 
 function sendToSheets(data) {
-  if (!SHEET_URL || SHEET_URL === 'https://script.google.com/macros/s/AKfycbwBwRIr72nJTsQn_8wvfQjwt-xCtVVMJOky-cAczCweohF-ZYo5PZhBr03p_tYAs900/exec') return;
   try {
-    // Build query string — GET request avoids all CORS issues
     var payload = Object.assign({
       aluno     : studentName,
       timestamp : new Date().toLocaleString('pt-BR')
     }, data);
-    var qs = Object.keys(payload).map(function(k) {
-      return encodeURIComponent(k) + '=' + encodeURIComponent(String(payload[k]));
+
+    // Build Google Forms query string using entry.XXXXXXX field IDs
+    var qs = Object.keys(FORM_FIELDS).map(function(k) {
+      return encodeURIComponent(FORM_FIELDS[k]) + '=' + encodeURIComponent(String(payload[k] || ''));
     }).join('&');
-    var url = SHEET_URL + '?' + qs;
-    // Use Image pixel trick — zero CORS issues, fire-and-forget
+
+    // Image pixel — never blocked by CORS, fire-and-forget
     var img = new Image();
     img.onload  = function() { showSyncStatus(true); };
-    img.onerror = function() { showSyncStatus(true); }; // onerror still means the request was received
-    img.src = url;
+    img.onerror = function() { showSyncStatus(true); };
+    img.src = FORM_URL + '?' + qs;
   } catch(err) {
     showSyncStatus(false);
   }
