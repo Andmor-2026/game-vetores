@@ -238,7 +238,7 @@ function h(letter) { return '<span class="hat">' + letter + '</span>'; }
 
 
 // ── GOOGLE SHEETS INTEGRATION ──
-var SHEET_URL = 'https://script.google.com/macros/s/AKfycbzRSf6nAWjvlrvUe5x6PX2xe32YHSCWOpA7Ya8HeC90rJXWg8iE5nnd0Fibb2P7XdrB/exec';
+var SHEET_URL = 'https://script.google.com/macros/s/AKfycbyMLSRl8ZoFHGJ4kaxZ0og6Yn7l8d3MaV0mO6Kk-vR8RL_kMClC9vlvjAZFA1Wcyt3s/exec';
 var studentName = '';
 
 function startGame() {
@@ -258,7 +258,7 @@ function startGame() {
 }
 
 function sendToSheets(data) {
-  if (!SHEET_URL || SHEET_URL === 'https://script.google.com/macros/s/AKfycbzRSf6nAWjvlrvUe5x6PX2xe32YHSCWOpA7Ya8HeC90rJXWg8iE5nnd0Fibb2P7XdrB/exec') return;
+  if (!SHEET_URL || SHEET_URL === 'https://script.google.com/macros/s/AKfycbyMLSRl8ZoFHGJ4kaxZ0og6Yn7l8d3MaV0mO6Kk-vR8RL_kMClC9vlvjAZFA1Wcyt3s/exec') return;
   try {
     var payload = Object.assign({ aluno: studentName, timestamp: new Date().toLocaleString('pt-BR') }, data);
     fetch(SHEET_URL, {
@@ -287,7 +287,7 @@ const missions = [
     id: 'm1', icon: '&#127959;&#65039;',
     title: 'Miss&#227;o 1 &#8212; Canteiro de Obras',
     short: 'For&#231;as em estruturas',
-    desc: 'Uma viga está sujeita a forças. Calcule módulos e identifique vetores para garantir a segurança da estrutura.',
+    desc: 'Uma viga está; sujeita a forças. Calcule módulos e identifique vetores para garantir a segurança da estrutura.',
     xp: 80, badge: '&#127959;&#65039; Estruturista', requires: [],
     challenges: [
       {
@@ -320,7 +320,7 @@ const missions = [
     id: 'm2', icon: '&#9889;',
     title: 'Miss&#227;o 2 &#8212; Circuito El&#233;trico',
     short: 'Campos e pot&#234;ncia',
-    desc: 'Analise vetores de campo elétrico. O produto escalar &#233; fundamental para calcular potência e energia.',
+    desc: 'Analise vetores de campo elétrico. O produto escalar dos vetores dois vetores; fundamental para calcular potência e energia.',
     xp: 100, badge: '&#9889; Eletricista', requires: ['m1'],
     challenges: [
       {
@@ -352,8 +352,8 @@ const missions = [
   {
     id: 'm3', icon: '&#128640;',
     title: 'Miss&#227;o 3 &#8212; Lan&#231;amento de Foguete',
-    short: 'Decomposi&#231;&#227;o e trajet&#243;ria',
-    desc: 'Decomponha vetores de velocidade e aceleraçãoo para calcular a trajetória de um foguete.',
+    short: 'Decomposição e trajetória',
+    desc: 'Decomponha vetores de velocidade e aceleração para calcular a trajetória de um foguete.',
     xp: 120, badge: '&#128640; Aeroespacial', requires: ['m2'],
     challenges: [
       {
@@ -420,7 +420,7 @@ const missions = [
     title: 'Miss&#227;o Final &#8212; Plataforma Offshore',
     short: 'Desafio integrado',
     desc: 'Use todos os conceitos para analisar forças do vento, correntes e estruturas de uma plataforma de petróleo.',
-    xp: 200, badge: '&#127754; Engenheiro Sêior', requires: ['m4'],
+    xp: 200, badge: '&#127754; Engenheiro S&#234;nior', requires: ['m4'],
     challenges: [
       {
         ctx: function(){ return 'Vento: ' + v('v') + '<sub>vento</sub> = (15, 0) m/s. Corrente: ' + v('v') + '<sub>corrente</sub> = (0, 8) m/s.'; },
@@ -606,9 +606,15 @@ function showReward() {
     + '<span class="reward-stat">XP total: ' + xp + '</span> '
     + '<span class="reward-stat">N\u00edvel: ' + level + '</span>';
   // Send result to Google Sheets
+  // Strip all HTML entities and tags from mission title
+  var mTitle = curMission.title
+    .replace(/&[a-zA-Z0-9#]+;/g, ' ')
+    .replace(/<[^>]+>/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
   sendToSheets({
     evento: 'missao_concluida',
-    missao: curMission.title.replace(/&#[^;]+;/g,'').trim(),
+    missao: mTitle,
     acertos: missionScore,
     total: total,
     xp: xp,
