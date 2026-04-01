@@ -452,7 +452,7 @@ const missions = [
         exp: '|' + v('T') + '| = &#8730;(80&#178;+60&#178;) = &#8730;10000 = 100 kN. Tri&#226;ngulo 3-4-5 &#215; 20!'
       },
       {
-        ctx: function(){ return 'Duas for&#231;as ortogonais: ' + v('F','1') + ' = (50, 0) kN e ' + v('F','2') + ' = (0, 50) kN.'; },
+        ctx: function(){ return 'Duas for&#231;as são dadas por: ' + v('F','1') + ' = (50, 0) kN e ' + v('F','2') + ' = (0, 50) kN.'; },
         q:   function(){ return 'Qual &#233; ' + v('F','1') + ' &#183; ' + v('F','2') + ' e o que indica estruturalmente?'; },
         opts: ['0 &#8212; for&#231;as perpendiculares, an&#225;lise independente por eixo', '2500 &#8212; for&#231;as se somam', '100 &#8212; m&#243;dulo resultante', '50 &#8212; m&#233;dia das for&#231;as'], ans: 0,
         exp: v('F','1') + ' &#183; ' + v('F','2') + ' = 50&#183;0 + 0&#183;50 = 0. For&#231;as ortogonais n&#227;o interferem entre si &#8212; importante para an&#225;lise estrutural independente dos eixos!'
