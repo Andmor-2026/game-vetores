@@ -302,7 +302,7 @@ const missions = [
         exp: '|' + 'F| = &#8730;(60&#178; + 80&#178;) = &#8730;10000 = 100 kN. Tri&#226;ngulo 3-4-5 escalado!'
       },
       {
-        ctx: function(){ return 'Mesma for&#231;a ' + v('F') + ' = (60, 80) kN.'; },
+        ctx: function(){ return 'A mesma for&#231;a ' + v('F') + ' = (60, 80) kN.'; },
         q:   function(){ return 'Qual &#233; o vetor unit&#225;rio ' + h('F') + ' na dire&#231;&#227;o da for&#231;a?'; },
         opts: ['(0,6 ; 0,8)', '(60 ; 80)', '(0,8 ; 0,6)', '(0,5 ; 0,5)'], ans: 0,
         exp: h('F') + ' = ' + v('F') + '/|' + v('F') + '| = (60/100 ; 80/100) = (0,6 ; 0,8). Verifica&#231;&#227;o: 0,6&#178;+0,8&#178; = 1 &#10003;'
@@ -314,7 +314,7 @@ const missions = [
         exp: '(30+(&#8722;10), 50+20) = (20, 70) kN. Soma vetorial componente a componente.'
       },
       {
-        ctx: function(){ return 'Uma viga horizontal tem for&#231;a ' + v('F') + ' = (0, &#8722;50) kN (gravidade).'; },
+        ctx: function(){ return 'Uma viga horizontal tem for&#231;a ' + v('F') + ' = (0, &#8722;50) kN.'; },
         q:   function(){ return 'Qual &#233; a dire&#231;&#227;o deste vetor?'; },
         opts: ['Horizontal, sentido positivo', 'Vertical, sentido negativo (para baixo)', 'Diagonal 45&#176;', 'Horizontal, sentido negativo'], ans: 1,
         exp: 'v<sub>x</sub> = 0: sem componente horizontal. v<sub>y</sub> = &#8722;50 &lt; 0: aponta para baixo (sentido negativo do eixo y).'
@@ -336,7 +336,7 @@ const missions = [
       },
       {
         ctx: function(){ return 'Dois campos: ' + v('E','1') + ' = (2, 0) e ' + v('E','2') + ' = (0, 3).'; },
-        q:   function(){ return 'Qual &#233; ' + v('E','1') + ' &#183; ' + v('E','2') + ' e o que indica?'; },
+        q:   function(){ return 'Qual o resultado do produto' + v('E','1') + ' &#183; ' + v('E','2') + ' e o que indica?'; },
         opts: ['0 &#8212; s&#227;o perpendiculares (ortogonais)', '6 &#8212; s&#227;o paralelos', '5 &#8212; mesma magnitude', '1 &#8212; s&#227;o unit&#225;rios'], ans: 0,
         exp: v('E','1') + ' &#183; ' + v('E','2') + ' = 2&#183;0 + 0&#183;3 = 0. Produto escalar nulo indica vetores perpendiculares (&#952; = 90&#176;).'
       },
@@ -395,7 +395,7 @@ const missions = [
     xp: 150, badge: '&#129302; Roboticista', requires: ['m3'],
     challenges: [
       {
-        ctx: function(){ return 'For&#231;a ' + v('F') + ' = (0, 0, 10) N no ponto ' + v('r') + ' = (2, 0, 0) m.'; },
+        ctx: function(){ return ' Considere a for&#231;a ' + v('F') + ' = (0, 0, 10) N agindo no ponto ' + v('r') + ' = (2, 0, 0) m.'; },
         q:   function(){ return 'O torque ' + v('&#964;') + ' = ' + v('r') + ' &#215; ' + v('F') + '. Qual &#233; sua dire&#231;&#227;o?'; },
         opts: ['Eixo x', 'Eixo y', 'Eixo z', 'Diagonal (1,1,0)'], ans: 1,
         exp: v('r') + ' &#215; ' + v('F') + ': componente y = r<sub>z</sub>&#183;F<sub>x</sub> &#8722; r<sub>x</sub>&#183;F<sub>z</sub> = 0 &#8722; 20 = &#8722;20. Resultado: (0, &#8722;20, 0) &#8212; eixo y!'
@@ -407,7 +407,7 @@ const missions = [
         exp: h('i') + ' &#215; ' + h('j') + ' = ' + h('k') + ' = (0, 0, 1). Regra da m&#227;o direita &#8212; resultado padr&#227;o dos vetores base.'
       },
       {
-        ctx: function(){ return '|' + v('r') + '| = 0,5 m, |' + v('F') + '| = 40 N e &#952; = 90&#176;.'; },
+        ctx: function(){ return Çonsidere|' + v('r') + '| = 0,5 m, e |' + v('F') + '| = 40 N e &#952; = 90&#176;.'; },
         q:   function(){ return 'Qual &#233; a magnitude do torque |' + v('&#964;') + '|?'; },
         opts: ['20 N&#183;m', '80 N&#183;m', '0 N&#183;m', '40 N&#183;m'], ans: 0,
         exp: '|' + v('&#964;') + '| = 0,5&#183;40&#183;sin(90&#176;) = 20 N&#183;m. M&#225;ximo torque quando a for&#231;a &#233; perpendicular ao bra&#231;o!'
